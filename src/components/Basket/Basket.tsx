@@ -3,6 +3,7 @@ import { Dishes, CounterBasket } from "../../types";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { ordersAdd } from "../../store/ordersThunk";
 import BtnSpinner from "../Preloader/BtnSpinner";
+import { PiShoppingCartSimpleBold } from "react-icons/pi";
 import './Basket.css';
 
 interface Props {
@@ -45,7 +46,7 @@ const Basket: React.FC<Props> = ({ basket, removeToBasket, addToBasket, onDelete
 
   return (
     <div>
-      <button onClick={openModal}>Корзина <span>{totalAmount}</span></button>
+      <button onClick={openModal} className={isModalOpen ? "btn-basket-active" : 'btn-basket'}><PiShoppingCartSimpleBold /><span className={totalAmount > 0 ? 'btn-basket-number' : 'btn-none'}>{totalAmount}</span></button>
 
       {isModalOpen && (
         <div>
@@ -55,29 +56,34 @@ const Basket: React.FC<Props> = ({ basket, removeToBasket, addToBasket, onDelete
             </div>
             <h4 className="modal-title">Корзина</h4>
             <span className="delivery-price">Доставка: 150 KGS</span>
-            <h4>Итого: {totalPrice} KGS</h4>
-            <ul className="modal-list">
-              {basket.map((dish) => (
-                <li key={dish.id} className="modal-item">
-                  <div className="modal-top-item">
-                    <div className="modal-img-container">
-                      <img className="modal-img" src={dish.photo ? dish.photo : '../../../src/assets/unknown-dish.png'} alt={dish.name} />
+            <div className="modal-screen">
+              <ul className="modal-list">
+                {basket.map((dish) => (
+                  <li key={dish.id} className="modal-item">
+                    <div className="modal-top-item">
+                      <div className="modal-img-container">
+                        <img className="modal-img" src={dish.photo ? dish.photo : '../../../src/assets/unknown-dish.png'} alt={dish.name} />
+                      </div>
+                      <h4 className="modal-name">{dish.name}</h4>
                     </div>
-                    <h4 className="modal-name">{dish.name}</h4>
-                  </div>
-                  <div className="modal-bottom-item">
-                    <span className="modal-price">{dish.price} KGS</span>
-                    <div className="amount-container">
-                      <button className="modal-btn-minus" onClick={() => removeToBasket(dish.id)}>-</button>
-                      <span className="modal-amount">{dish.amount}</span>
-                      <button className="modal-btn-plus"  onClick={() => addToBasket(dish)}>+</button>
+                    <div className="modal-bottom-item">
+                      <span className="modal-price">{dish.price} KGS</span>
+                      <div className="amount-container">
+                        <button className="modal-btn-minus" onClick={() => removeToBasket(dish.id)}>-</button>
+                        <span className="modal-amount">{dish.amount}</span>
+                        <button className="modal-btn-plus"  onClick={() => addToBasket(dish)}>+</button>
+                      </div>
                     </div>
-                  </div>
-                </li>
-              ))}
-            </ul>
-            <button className="modal-btn-order" disabled={emptyBasket} onClick={onOrder}>
-              {loading.postLoading ? <BtnSpinner /> : 'Заказать'} 
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <button
+              className={`modal-btn-order ${emptyBasket ? 'modal-btn-order-disabled' : ''}`}
+              disabled={emptyBasket}
+              onClick={onOrder}
+            >
+              {loading.postLoading ? <BtnSpinner /> : `Заказать за ${totalPrice} KGS`}
             </button>
           </div>
           <div className='modal-backdrop' onClick={closeModal}></div>
