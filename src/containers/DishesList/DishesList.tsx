@@ -16,8 +16,10 @@ const DishesList = () => {
   }, [dispatch]);
 
   const deleteDish = async (id: string) => {
-    await dispatch(dishDelete(id));
-    await dispatch(dishList());
+    if (confirm('Вы точно хотите удалить это блюдо?')) {
+      await dispatch(dishDelete(id));
+      await dispatch(dishList());
+    }
   };
 
   return (
@@ -32,27 +34,33 @@ const DishesList = () => {
           {loading.getLoading ? (
             <Preloader />
           ) : (
-            dishes.map((dish) => (
-              <ul className="dish-list">
-                <li key={dish.id} className="dish-item">
-                  <div className="dish-item-inner">
-                    <div className="dish-img-container">
-                      <img className="dish-img" src={dish.photo ? dish.photo : '../../../src/assets/unknown-dish.png'} alt={dish.name} />
-                    </div>
-                    <h3 className="dish-name">{dish.name}</h3>
-                  </div>
-                  <div className="dish-item-inner">
-                    <span className="dish-price">{dish.price} KGS</span>
-                    <div className="dish-btns">
-                      <Link className="dish-btn" to={'/admin/' + dish.id + '/edit'}>Изменить</Link>
-                      <button className="dish-btn delete-btn" onClick={() => deleteDish(dish.id)}>
-                        {loading.deleteLoading && <Preloader />}Удалить
-                      </button>
-                    </div>
-                  </div>
-                </li>
-              </ul>
-            ))
+            <div>
+              {dishes.length < 1 ? (
+                <h2>Блюд еще нет!</h2>
+              ) : (
+                dishes.map((dish) => (
+                  <ul className="dish-list">
+                    <li key={dish.id} className="dish-item">
+                      <div className="dish-item-inner">
+                        <div className="dish-img-container">
+                          <img className="dish-img" src={dish.photo ? dish.photo : '../../../src/assets/unknown-dish.png'} alt={dish.name} />
+                        </div>
+                        <h3 className="dish-name">{dish.name}</h3>
+                      </div>
+                      <div className="dish-item-inner">
+                        <span className="dish-price">{dish.price} KGS</span>
+                        <div className="dish-btns">
+                          <Link className="dish-btn" to={'/admin/' + dish.id + '/edit'}>Изменить</Link>
+                          <button className="dish-btn delete-btn" onClick={() => deleteDish(dish.id)}>
+                            {loading.deleteLoading && <Preloader />}Удалить
+                          </button>
+                        </div>
+                      </div>
+                    </li>
+                  </ul>
+                ))
+              )}
+            </div>
           )}
         </div>
       </div>

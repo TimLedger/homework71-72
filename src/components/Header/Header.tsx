@@ -1,9 +1,16 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import Basket from '../Basket/Basket';
+import { Dishes, CounterBasket } from "../../types";
 import './Header.css';
 
-const Header: React.FC = () => {
+interface Props {
+    basket: CounterBasket[];
+    removeToBasket: (id: string) => void;
+    addToBasket: (dish: Dishes) => void;
+}
+
+const Header: React.FC<Props> = ({ basket,  removeToBasket, addToBasket }) => {
     return (
         <header className='header'>
             <div className="container">
@@ -11,7 +18,7 @@ const Header: React.FC = () => {
                     <NavLink className={'logo'} to="/" end>
                         <h3>Пицца</h3>
                     </NavLink>
-                    <Basket />
+                    <Basket removeToBasket={removeToBasket} basket={basket} addToBasket={addToBasket} />
                 </div>
             </div>
         </header>

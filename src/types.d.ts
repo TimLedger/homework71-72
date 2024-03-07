@@ -11,3 +11,7 @@ export interface Dishes extends Dish {
 export interface ApiDish {
     [id: string]: Dish;
 }
+
+export interface CounterBasket extends Dishes{
+    amount: number;
+}
