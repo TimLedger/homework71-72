@@ -1,19 +1,39 @@
 import React, {useState} from "react";
 import { Dishes, CounterBasket } from "../../types";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import { ordersAdd } from "../../store/ordersThunk";
+import BtnSpinner from "../Preloader/BtnSpinner";
 import './Basket.css';
 
 interface Props {
   basket: CounterBasket[];
   removeToBasket: (id: string) => void;
   addToBasket: (dish: Dishes) => void;
+  onDelete: (id: string) => void;
 }
 
-const Basket: React.FC<Props> = ({ basket, removeToBasket, addToBasket }) => {
+const Basket: React.FC<Props> = ({ basket, removeToBasket, addToBasket, onDelete }) => {
+  const dispatch = useAppDispatch();
   const [isModalOpen, setIsModalOpen] = useState(false);
-
+  const loading = useAppSelector((state) => state.orders);
+  const totalAmount = basket.reduce((total, dish) => total + dish.amount, 0);
   const totalPrice = basket.reduce((acc, item) => {
     return acc + parseFloat(item.price) * item.amount;
   }, 150);
+
+  let emptyBasket = false;
+
+  const onOrder = async () => {
+    await dispatch(ordersAdd(basket));
+    setIsModalOpen(false);
+    basket.forEach((dish) => {
+      onDelete(dish.id);
+    });
+  };
+
+  if (basket.length < 1) {
+    emptyBasket = true;
+  }
 
   const openModal = () => {
     setIsModalOpen(true);
@@ -25,7 +45,7 @@ const Basket: React.FC<Props> = ({ basket, removeToBasket, addToBasket }) => {
 
   return (
     <div>
-      <button onClick={openModal}>Корзина</button>
+      <button onClick={openModal}>Корзина <span>{totalAmount}</span></button>
 
       {isModalOpen && (
         <div>
@@ -56,8 +76,9 @@ const Basket: React.FC<Props> = ({ basket, removeToBasket, addToBasket }) => {
                 </li>
               ))}
             </ul>
-            <div className="modal-btn-container">
-            </div>
+            <button className="modal-btn-order" disabled={emptyBasket} onClick={onOrder}>
+              {loading.postLoading ? <BtnSpinner /> : 'Заказать'} 
+            </button>
           </div>
           <div className='modal-backdrop' onClick={closeModal}></div>
         </div>

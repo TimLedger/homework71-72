@@ -8,9 +8,10 @@ interface Props {
     basket: CounterBasket[];
     removeToBasket: (id: string) => void;
     addToBasket: (dish: Dishes) => void;
+    onDelete: (id: string) => void;
 }
 
-const Header: React.FC<Props> = ({ basket,  removeToBasket, addToBasket }) => {
+const Header: React.FC<Props> = ({ basket,  removeToBasket, addToBasket, onDelete }) => {
     return (
         <header className='header'>
             <div className="container">
@@ -18,7 +19,7 @@ const Header: React.FC<Props> = ({ basket,  removeToBasket, addToBasket }) => {
                     <NavLink className={'logo'} to="/" end>
                         <h3>Пицца</h3>
                     </NavLink>
-                    <Basket removeToBasket={removeToBasket} basket={basket} addToBasket={addToBasket} />
+                    <Basket removeToBasket={removeToBasket} basket={basket} addToBasket={addToBasket} onDelete={onDelete} />
                 </div>
             </div>
         </header>

@@ -51,10 +51,14 @@ const Home = () => {
       setBasket(basketCopy);
     }
   };
+
+  const onDelete = (id: string) => {
+    setBasket((prevState) => prevState.filter((every) => every.id !== id));
+  };
   
   return (
     <div>
-      <Header removeToBasket={removeToBasket} basket={basket} addToBasket={addToBasket} />
+      <Header removeToBasket={removeToBasket} basket={basket} addToBasket={addToBasket} onDelete={onDelete} />
       <div className="container">
         <div className="page-body">
           <h3 className="home-title">Блюда</h3>

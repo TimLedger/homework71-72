@@ -15,3 +15,12 @@ export interface ApiDish {
 export interface CounterBasket extends Dishes{
     amount: number;
 }
+
+export interface OrderDish {
+    [id: string]: number;
+}
+
+export interface OrdersInBasket {
+    id: string;
+    dishes: CounterBasket[];
+}
