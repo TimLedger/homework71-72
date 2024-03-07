@@ -29,9 +29,9 @@
 
 .active-link {
     text-transform: uppercase;
-    color: #ffa500; 
+    color: #ff6200; 
     padding-bottom: 5px;
-    background-image: linear-gradient(to bottom, transparent 0%, transparent 90%, #ffa500 90%, #ffa500 100%);
+    background-image: linear-gradient(to bottom, transparent 0%, transparent 90%, #ff6200 90%, #ff6200 100%);
     background-repeat: no-repeat;
     background-size: 0% 100%;
     background-position-x: left;
