@@ -44,14 +44,19 @@ const OrdersList = () => {
                         {order.dishes.map((dish) => (
                           <div key={dish.id} className="order-dish">
                             <h4 className="order-name">{dish.name}</h4>
-                            <span className="order-amount">X<strong>{dish.amount}</strong></span>
-                            <span className="order-price">{dish.price} KGS</span>
+                            <div className="order-inner">
+                              <span className="order-amount">X{dish.amount}</span>
+                              <span className="order-price"><strong>{dish.price}</strong> KGS</span>
+                            </div>
                           </div>
                         ))}
-                        <div>
-                          <p>Доставка: 150 KGS</p>
-                          <strong>Всего:{totalPrice} KGS</strong>
-                          <button onClick={() => onDeleteOrder(order.id)}>Выполнить</button>
+                        <div className="order-dish">
+                          <span className="order-delivery">Стоимость доставки</span>
+                          <span className="order-price"><strong>150</strong> KGS</span>
+                        </div>
+                        <div className="order-bottom-frame">
+                          <strong className="order-total-price">Сумма заказа: {totalPrice} KGS</strong>
+                          <button className="order-btn-done" onClick={() => onDeleteOrder(order.id)}>Выполнить</button>
                         </div>
                       </li>
                     </ul>
