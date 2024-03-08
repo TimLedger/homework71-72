@@ -70,3 +70,10 @@ export const orderList = createAsyncThunk<OrdersInBasket[], undefined>(
     return newOrders;
   },
 );
+
+export const orderDelete = createAsyncThunk<void, string>(
+  "orders/delete",
+  async (id) => {
+    await axiosApi.delete('/orders/' + id + '.json');
+  },
+);

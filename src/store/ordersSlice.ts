@@ -1,17 +1,19 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { ordersAdd, orderList } from "./ordersThunk";
+import { ordersAdd, orderList, orderDelete } from "./ordersThunk";
 import {OrdersInBasket} from "../types";
 
 interface OrdersSlice {
   orders: OrdersInBasket[];
   postLoading: boolean;
   getLoading: boolean;
+  deleteLoading: boolean;
 }
 
 const initialState: OrdersSlice = {
   orders: [],
   postLoading: false,
   getLoading: false,
+  deleteLoading: false,
 };
 
 const orderSlice = createSlice({
@@ -38,6 +40,16 @@ const orderSlice = createSlice({
     });
     builder.addCase(orderList.rejected, (state) => {
       state.getLoading = false;
+    });
+
+    builder.addCase(orderDelete.pending, (state) => {
+      state.deleteLoading = true;
+    });
+    builder.addCase(orderDelete.fulfilled, (state) => {
+      state.deleteLoading = false;
+    });
+    builder.addCase(orderDelete.rejected, (state) => {
+      state.deleteLoading = false;
     });
   },
 });
