@@ -9,7 +9,7 @@
 
 .preloader {
   border: 5px solid rgba(0, 0, 0, 0.1);
-  border-left-color: blueviolet;
+  border-left-color: #ff6200;
   border-radius: 50%;
   width: 25px;
   height: 25px;
